@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herbalife Calculator</title>
     <style>
-        
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -34,15 +33,17 @@
             /* border: none; */
             border-radius: 10px;
         }
-        td input{
+
+        td input {
             height: 30px;
             width: 100%;
-            font-size:16px;
+            font-size: 16px;
         }
-        td select{
+
+        td select {
             height: 35px;
             width: 100%;
-            font-size:16px;
+            font-size: 16px;
         }
 
         #totalMainDiv {
@@ -54,14 +55,16 @@
             width: 100%;
             height: fit-content;
         }
-        .calButton{
+
+        .calButton {
             width: 90%;
             margin: auto;
             height: 30px;
             margin-top: 25%;
 
         }
-        #heading{
+
+        #heading {
             background-color: #dddddd;
             width: 100%;
             height: 70px;
@@ -83,6 +86,7 @@
                 <th>Product Name</th>
                 <th>QTY</th>
                 <th>Volume points</th>
+                <th>42% price</th>
                 <th>50% price</th>
                 <th>ADD</th>
             </tr>
@@ -107,10 +111,11 @@
     <div id="totalMainDiv">
         <div>
             <h3 id="totalVol"></h3>
+            <h3 id="fortyDiscounted"></h3>
             <h3 id="totalPrice"></h3>
         </div>
     </div>
-    
+
 </body>
 
 </html>
@@ -494,13 +499,13 @@
     var count = 0;
     var cartData = []
     var addBtn = document.getElementById("addBth")
-  
+
     var funADD = () => {
         console.log("hello")
         var table = document.getElementById("table")
         var tr = document.createElement("tr")
         var sNO = document.createElement("td")
-        sNO.textContent = count+1
+        sNO.textContent = count + 1
         var tpn = document.createElement("td")
         var select = document.createElement("select")
         var str = ""
@@ -519,16 +524,17 @@
         tqt.append(tqinput)
 
         var tvol = document.createElement("td")
-      
+        var tforty = document.createElement("td")
+
 
         var tprice = document.createElement("td")
-        
+
         var calbtn = document.createElement("button")
         calbtn.id = `calbtn-${count}`
-        calbtn.className="calButton"
+        calbtn.className = "calButton"
         calbtn.textContent = "ADD"
 
-        
+
 
         //add bth function
         calbtn.onclick = (e) => {
@@ -538,30 +544,34 @@
 
             cartData[calbtn.id.split("-")[1]] = current
             console.log(cartData, calbtn.id)
-            tvol.textContent=current.volume*itemQua
-            tprice.textContent=current[50]*itemQua
+            tvol.textContent = current.volume * itemQua
+            tforty.textContent = current[42] * itemQua
+            tprice.textContent = current[50] * itemQua
             // console.log(tpn, itemQua, select.value, data[select.value])
-            var tempVol=0
-            var tempPrice=0
-            for(var j=0; j<cartData.length; j++)
-            {
-                tempVol+=(cartData[j].volume*cartData[j].Qty)
-                tempPrice+=(cartData[j][50]*cartData[j].Qty)
+            var tempVol = 0
+            var tempPrice = 0
+            var temp40price = 0
+            for (var j = 0; j < cartData.length; j++) {
+                tempVol += (cartData[j].volume * cartData[j].Qty)
+                tempPrice += (cartData[j][50] * cartData[j].Qty)
+                temp40price += (cartData[j][42] * cartData[j].Qty)
             }
-            
-            document.getElementById("totalPrice").textContent = `Total Price: ${tempPrice}`
+
+            document.getElementById("totalPrice").textContent = `50% Total Price: ${tempPrice}`
             document.getElementById("totalVol").textContent = `Total Volume: ${tempVol}`
+            document.getElementById("fortyDiscounted").textContent = `42% Total Price: ${temp40price}`
+
         }
-        tr.append(sNO, tpn, tqt, tvol, tprice, calbtn)
+        tr.append(sNO, tpn, tqt, tvol, tforty, tprice, calbtn)
         table.append(tr)
         count++
     }
 
-    addBtn.onclick=funADD
+    addBtn.onclick = funADD
     funADD()
     // function onDataChange(item, q) {
 
-        
+
     // }
 
 </script>
